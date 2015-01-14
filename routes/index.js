@@ -1,21 +1,26 @@
 var express = require('express');
-var router = express.Router();
+var App = express.Router();
+var path = require( 'path' );
+var controller = require(path.resolve(('controllers/franchise')));
 
-/* GET home page. */
-router.get('/obj', function(req, res) {
-  var obj = {
-  	name: 'Nicholas'
-  };
-  res.render('obj', { obj:  obj});
-});
+App
+  .route('/')
+    .get(function(req, res){
+      res.render('index');
+    });
 
-router.get('/array', function(req, res) {
-  var array = [{
-  	name: 'Nicholas'
-  },{
-  	name: 'Eduardo'
-  }];
-  res.render('array', { array: array });
-});
+App
+  .route('/franchises')
+    .get(controller.findAllFranchises);
 
-module.exports = router;
+App
+  .route('/create')
+    .get(controller.create);
+
+App
+  .route('/edit/:id')
+    .get(controller.edit)
+    .put(controller.findById)
+    .delete(controller.deleteFranchise)
+
+module.exports = App;

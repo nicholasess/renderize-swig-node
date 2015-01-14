@@ -6,9 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var swig = require('swig');
 var routes = require('./routes/index');
-
+var mongoose = require('mongoose');
 var app = express();
-
+require('getmodule');
 // This is where all the magic happens!
 app.engine('html', swig.renderFile);
 
@@ -60,6 +60,15 @@ app.use(function(err, req, res, next) {
         message: err.message,
         error: {}
     });
+});
+
+// Conexão com MongoDB
+mongoose.connect('mongodb://localhost/nk8', function(err, res){
+    if(err){
+        console.log('Erro ao conectar ao banco' + err);
+    } else {
+        console.log('Conectado com o Banco');
+    }
 });
 
 
